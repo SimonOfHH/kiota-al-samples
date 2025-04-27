@@ -1,0 +1,45 @@
+{
+  "id": "55e8e560-32f8-4124-ae9d-1c45c6a8be2b",
+  "name": "PetStoreAl",
+  "publisher": "SimonOfHH",
+  "version": "0.0.0.1",
+  "description": "Auto-generated API Extension. Generated with Kiota",
+  "brief": "Auto-generated API Extension",
+  "privacyStatement": "https://www.providersample.com/data-protection",
+  "EULA": "https://www.providersample.com/eula",
+  "help": "https://www.providersample.com/help",
+  "url": "https://www.providersample.com",
+  "contextSensitiveHelpUrl": "https://www.providersample.com/help",
+  "logo": "",
+  "propagateDependencies": false,
+  "dependencies": [
+    {
+      "id": "c24a2609-e5c2-4702-b734-db13e5a6594c",
+      "name": "Kiota.Abstractions",
+      "publisher": "SimonOfHH",
+      "version": "1.0.0.0"
+    }
+  ],
+  "screenshots": [],
+  "idRanges": [
+    {
+      "from": 50000,
+      "to": 50046
+    }
+  ],
+  "application": "25.0.0.0",
+  "platform": "25.0.0.0",
+  "features": [
+    "NoImplicitWith"
+  ],
+  "runtime": "14.0",
+  "target": "Cloud",
+  "supportedLocales": [
+    "en-US"
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": false
+  }
+}
