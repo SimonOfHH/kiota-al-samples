@@ -2,6 +2,10 @@
 
 This repository contains the output of the client generation based on the fork in the [SimonOfHH/kiota](https://github.com/SimonOfHH/kiota) repository (branch: `kiota-al`). It is an early prototype and demonstrates the use of the Kiota code generator for generating AL code from an OpenAPI definition.
 
+## Note
+
+Except for the "ApiClienTestPage.Page.al"-file everything was generated with the modified Kiota client.
+
 ## API Definition
 
 The client is based on the API definition available at [https://petstore3.swagger.io/](https://petstore3.swagger.io/).
