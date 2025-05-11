@@ -37,16 +37,32 @@ codeunit 50020 Category implements "Kiota IModelClass SOHH"
     begin
         id := Id();
         name := Name();
+        Id(id);
+        Name(name);
     end;
     procedure Id() : BigInteger
     begin
         if JsonBody.SelectToken('id', SubToken) then
             exit(SubToken.AsValue().AsBigInteger());
     end;
+    procedure Id(p : BigInteger) 
+    begin
+        if JsonBody.SelectToken('id', SubToken) then
+            SubToken.AsObject().Replace('id', p)
+        else
+            JsonBody.AsObject().Add('id', p);
+    end;
     procedure Name() : Text
     begin
         if JsonBody.SelectToken('name', SubToken) then
             exit(SubToken.AsValue().AsText());
+    end;
+    procedure Name(p : Text) 
+    begin
+        if JsonBody.SelectToken('name', SubToken) then
+            SubToken.AsObject().Replace('name', p)
+        else
+            JsonBody.AsObject().Add('name', p);
     end;
     procedure ToJson() : JsonToken
     begin

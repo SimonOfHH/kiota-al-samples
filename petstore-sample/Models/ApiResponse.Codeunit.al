@@ -38,16 +38,33 @@ codeunit 50019 ApiResponse implements "Kiota IModelClass SOHH"
         code_ := Code_();
         message := Message();
         type := Type();
+        Code_(code_);
+        Message(message);
+        Type(type);
     end;
     procedure Code_() : Integer
     begin
         if JsonBody.SelectToken('code_', SubToken) then
             exit(SubToken.AsValue().AsInteger());
     end;
+    procedure Code_(p : Integer) 
+    begin
+        if JsonBody.SelectToken('code_', SubToken) then
+            SubToken.AsObject().Replace('code_', p)
+        else
+            JsonBody.AsObject().Add('code_', p);
+    end;
     procedure Message() : Text
     begin
         if JsonBody.SelectToken('message', SubToken) then
             exit(SubToken.AsValue().AsText());
+    end;
+    procedure Message(p : Text) 
+    begin
+        if JsonBody.SelectToken('message', SubToken) then
+            SubToken.AsObject().Replace('message', p)
+        else
+            JsonBody.AsObject().Add('message', p);
     end;
     procedure ToJson() : JsonToken
     begin
@@ -68,5 +85,12 @@ codeunit 50019 ApiResponse implements "Kiota IModelClass SOHH"
     begin
         if JsonBody.SelectToken('type', SubToken) then
             exit(SubToken.AsValue().AsText());
+    end;
+    procedure Type(p : Text) 
+    begin
+        if JsonBody.SelectToken('type', SubToken) then
+            SubToken.AsObject().Replace('type', p)
+        else
+            JsonBody.AsObject().Add('type', p);
     end;
 }

@@ -45,6 +45,12 @@ codeunit 50018 Pet implements "Kiota IModelClass SOHH"
         photoUrls := PhotoUrls();
         status := Status();
         tags := Tags();
+        Category(category);
+        Id(id);
+        Name(name);
+        PhotoUrls(photoUrls);
+        Status(status);
+        Tags(tags);
     end;
     procedure Category() : Codeunit "Category"
     var
@@ -55,15 +61,36 @@ codeunit 50018 Pet implements "Kiota IModelClass SOHH"
             exit(TargetCodeunit);
         end;
     end;
+    procedure Category(p : Codeunit "Category") 
+    begin
+        if JsonBody.SelectToken('category', SubToken) then
+            SubToken.AsObject().Replace('category', p.ToJson())
+        else
+            JsonBody.AsObject().Add('category', p.ToJson());
+    end;
     procedure Id() : BigInteger
     begin
         if JsonBody.SelectToken('id', SubToken) then
             exit(SubToken.AsValue().AsBigInteger());
     end;
+    procedure Id(p : BigInteger) 
+    begin
+        if JsonBody.SelectToken('id', SubToken) then
+            SubToken.AsObject().Replace('id', p)
+        else
+            JsonBody.AsObject().Add('id', p);
+    end;
     procedure Name() : Text
     begin
         if JsonBody.SelectToken('name', SubToken) then
             exit(SubToken.AsValue().AsText());
+    end;
+    procedure Name(p : Text) 
+    begin
+        if JsonBody.SelectToken('name', SubToken) then
+            SubToken.AsObject().Replace('name', p)
+        else
+            JsonBody.AsObject().Add('name', p);
     end;
     procedure PhotoUrls() CodeunitList: List of [Text]
     var
@@ -76,10 +103,41 @@ codeunit 50018 Pet implements "Kiota IModelClass SOHH"
         foreach JToken in JArray do 
             CodeunitList.Add(SubToken.AsValue().AsText());
     end;
+    procedure PhotoUrls(p : List of [Text]) 
+    var
+        v: Text;
+        JArray: JsonArray;
+    begin
+        foreach v in p do
+            JArray.Add(v);
+        if JsonBody.SelectToken('photoUrls', SubToken) then
+            SubToken.AsObject().Replace('photoUrls', JArray)
+        else
+            JsonBody.AsObject().Add('photoUrls', JArray);
+    end;
     procedure Status() : Enum "Pet_status"
     begin
         if JsonBody.SelectToken('status', SubToken) then
             exit(Enum::Pet_status.FromInteger(Enum::Pet_status.Ordinals().Get(Enum::Pet_status.Names().IndexOf(SubToken.AsValue().AsText()))));
+    end;
+    procedure Status(p : Enum "Pet_status") 
+    begin
+        if JsonBody.SelectToken('status', SubToken) then
+            SubToken.AsObject().Replace('status', p.AsInteger())
+        else
+            JsonBody.AsObject().Add('status', p.AsInteger());
+    end;
+    procedure Tags(p : List of [Codeunit "Tag"]) 
+    var
+        v: Codeunit "Tag";
+        JArray: JsonArray;
+    begin
+        foreach v in p do
+            JSONHelper.AddToArrayIfNotEmpty(JArray, v);
+        if JsonBody.SelectToken('tags', SubToken) then
+            SubToken.AsObject().Replace('tags', JArray)
+        else
+            JsonBody.AsObject().Add('tags', JArray);
     end;
     procedure Tags() CodeunitList: List of [Codeunit "Tag"]
     var
@@ -91,7 +149,7 @@ codeunit 50018 Pet implements "Kiota IModelClass SOHH"
             exit;
         JArray := SubToken.AsArray();
         foreach JToken in JArray do begin
-            Clear(TargetCodeunit);
+            Clear(TarCodeunit);
             TargetCodeunit.SetBody(JToken, DebugCall);
             CodeunitList.Add(TargetCodeunit);
         end;

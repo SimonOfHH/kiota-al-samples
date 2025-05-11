@@ -44,36 +44,86 @@ codeunit 50017 User implements "Kiota IModelClass SOHH"
         phone := Phone();
         username := Username();
         userStatus := UserStatus();
+        Email(email);
+        FirstName(firstName);
+        Id(id);
+        LastName(lastName);
+        Password(password);
+        Phone(phone);
+        Username(username);
+        UserStatus(userStatus);
     end;
     procedure Email() : Text
     begin
         if JsonBody.SelectToken('email', SubToken) then
             exit(SubToken.AsValue().AsText());
     end;
+    procedure Email(p : Text) 
+    begin
+        if JsonBody.SelectToken('email', SubToken) then
+            SubToken.AsObject().Replace('email', p)
+        else
+            JsonBody.AsObject().Add('email', p);
+    end;
     procedure FirstName() : Text
     begin
         if JsonBody.SelectToken('firstName', SubToken) then
             exit(SubToken.AsValue().AsText());
+    end;
+    procedure FirstName(p : Text) 
+    begin
+        if JsonBody.SelectToken('firstName', SubToken) then
+            SubToken.AsObject().Replace('firstName', p)
+        else
+            JsonBody.AsObject().Add('firstName', p);
     end;
     procedure Id() : BigInteger
     begin
         if JsonBody.SelectToken('id', SubToken) then
             exit(SubToken.AsValue().AsBigInteger());
     end;
+    procedure Id(p : BigInteger) 
+    begin
+        if JsonBody.SelectToken('id', SubToken) then
+            SubToken.AsObject().Replace('id', p)
+        else
+            JsonBody.AsObject().Add('id', p);
+    end;
     procedure LastName() : Text
     begin
         if JsonBody.SelectToken('lastName', SubToken) then
             exit(SubToken.AsValue().AsText());
+    end;
+    procedure LastName(p : Text) 
+    begin
+        if JsonBody.SelectToken('lastName', SubToken) then
+            SubToken.AsObject().Replace('lastName', p)
+        else
+            JsonBody.AsObject().Add('lastName', p);
     end;
     procedure Password() : Text
     begin
         if JsonBody.SelectToken('password', SubToken) then
             exit(SubToken.AsValue().AsText());
     end;
+    procedure Password(p : Text) 
+    begin
+        if JsonBody.SelectToken('password', SubToken) then
+            SubToken.AsObject().Replace('password', p)
+        else
+            JsonBody.AsObject().Add('password', p);
+    end;
     procedure Phone() : Text
     begin
         if JsonBody.SelectToken('phone', SubToken) then
             exit(SubToken.AsValue().AsText());
+    end;
+    procedure Phone(p : Text) 
+    begin
+        if JsonBody.SelectToken('phone', SubToken) then
+            SubToken.AsObject().Replace('phone', p)
+        else
+            JsonBody.AsObject().Add('phone', p);
     end;
     procedure ToJson() : JsonToken
     begin
@@ -100,9 +150,23 @@ codeunit 50017 User implements "Kiota IModelClass SOHH"
         if JsonBody.SelectToken('username', SubToken) then
             exit(SubToken.AsValue().AsText());
     end;
+    procedure Username(p : Text) 
+    begin
+        if JsonBody.SelectToken('username', SubToken) then
+            SubToken.AsObject().Replace('username', p)
+        else
+            JsonBody.AsObject().Add('username', p);
+    end;
     procedure UserStatus() : Integer
     begin
         if JsonBody.SelectToken('userStatus', SubToken) then
             exit(SubToken.AsValue().AsInteger());
+    end;
+    procedure UserStatus(p : Integer) 
+    begin
+        if JsonBody.SelectToken('userStatus', SubToken) then
+            SubToken.AsObject().Replace('userStatus', p)
+        else
+            JsonBody.AsObject().Add('userStatus', p);
     end;
 }

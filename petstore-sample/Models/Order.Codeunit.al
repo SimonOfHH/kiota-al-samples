@@ -44,36 +44,84 @@ codeunit 50022 Order implements "Kiota IModelClass SOHH"
         quantity := Quantity();
         shipDate := ShipDate();
         status := Status();
+        Complete(complete);
+        Id(id);
+        PetId(petId);
+        Quantity(quantity);
+        ShipDate(shipDate);
+        Status(status);
     end;
     procedure Complete() : Boolean
     begin
         if JsonBody.SelectToken('complete', SubToken) then
             exit(SubToken.AsValue().AsBoolean());
     end;
+    procedure Complete(p : Boolean) 
+    begin
+        if JsonBody.SelectToken('complete', SubToken) then
+            SubToken.AsObject().Replace('complete', p)
+        else
+            JsonBody.AsObject().Add('complete', p);
+    end;
     procedure Id() : BigInteger
     begin
         if JsonBody.SelectToken('id', SubToken) then
             exit(SubToken.AsValue().AsBigInteger());
+    end;
+    procedure Id(p : BigInteger) 
+    begin
+        if JsonBody.SelectToken('id', SubToken) then
+            SubToken.AsObject().Replace('id', p)
+        else
+            JsonBody.AsObject().Add('id', p);
     end;
     procedure PetId() : BigInteger
     begin
         if JsonBody.SelectToken('petId', SubToken) then
             exit(SubToken.AsValue().AsBigInteger());
     end;
+    procedure PetId(p : BigInteger) 
+    begin
+        if JsonBody.SelectToken('petId', SubToken) then
+            SubToken.AsObject().Replace('petId', p)
+        else
+            JsonBody.AsObject().Add('petId', p);
+    end;
     procedure Quantity() : Integer
     begin
         if JsonBody.SelectToken('quantity', SubToken) then
             exit(SubToken.AsValue().AsInteger());
+    end;
+    procedure Quantity(p : Integer) 
+    begin
+        if JsonBody.SelectToken('quantity', SubToken) then
+            SubToken.AsObject().Replace('quantity', p)
+        else
+            JsonBody.AsObject().Add('quantity', p);
     end;
     procedure ShipDate() : DateTime
     begin
         if JsonBody.SelectToken('shipDate', SubToken) then
             exit(SubToken.AsValue().AsDateTime());
     end;
+    procedure ShipDate(p : DateTime) 
+    begin
+        if JsonBody.SelectToken('shipDate', SubToken) then
+            SubToken.AsObject().Replace('shipDate', p)
+        else
+            JsonBody.AsObject().Add('shipDate', p);
+    end;
     procedure Status() : Enum "Order_status"
     begin
         if JsonBody.SelectToken('status', SubToken) then
             exit(Enum::Order_status.FromInteger(Enum::Order_status.Ordinals().Get(Enum::Order_status.Names().IndexOf(SubToken.AsValue().AsText()))));
+    end;
+    procedure Status(p : Enum "Order_status") 
+    begin
+        if JsonBody.SelectToken('status', SubToken) then
+            SubToken.AsObject().Replace('status', p.AsInteger())
+        else
+            JsonBody.AsObject().Add('status', p.AsInteger());
     end;
     procedure ToJson() : JsonToken
     begin
