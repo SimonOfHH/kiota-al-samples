@@ -6,19 +6,19 @@ using SimonOfHH.Kiota.Utilities;
 
 codeunit 50018 Pet implements "Kiota IModelClass SOHH"
 {
-    Access = Internal;
 
     var
         #pragma warning disable AA0137
         JSONHelper: Codeunit "JSON Helper SOHH";
         #pragma warning restore AA0137
-        JsonBody, SubToken: JsonToken;
+        JsonBody: JsonObject;
+        SubToken: JsonToken;
         DebugCall: Boolean;
-    procedure SetBody(NewJsonBody : JsonToken) 
+    procedure SetBody(NewJsonBody : JsonObject) 
     begin
         SetBody(NewJsonBody, false);
     end;
-    procedure SetBody(NewJsonBody : JsonToken; Debug : Boolean) 
+    procedure SetBody(NewJsonBody : JsonObject; Debug : Boolean) 
     begin
         JsonBody := NewJsonBody;
         if (Debug) then begin
@@ -57,16 +57,16 @@ codeunit 50018 Pet implements "Kiota IModelClass SOHH"
         TargetCodeunit: Codeunit "Category";
     begin
         if JsonBody.SelectToken('category', SubToken) then begin
-            TargetCodeunit.SetBody(SubToken, DebugCall);
+            TargetCodeunit.SetBody(SubToken.AsObject(), DebugCall);
             exit(TargetCodeunit);
         end;
     end;
     procedure Category(p : Codeunit "Category") 
     begin
         if JsonBody.SelectToken('category', SubToken) then
-            SubToken.AsObject().Replace('category', p.ToJson())
+            JsonBody.Replace('category', p.ToJson())
         else
-            JsonBody.AsObject().Add('category', p.ToJson());
+            JsonBody.Add('category', p.ToJson());
     end;
     procedure Id() : BigInteger
     begin
@@ -76,9 +76,9 @@ codeunit 50018 Pet implements "Kiota IModelClass SOHH"
     procedure Id(p : BigInteger) 
     begin
         if JsonBody.SelectToken('id', SubToken) then
-            SubToken.AsObject().Replace('id', p)
+            JsonBody.Replace('id', p)
         else
-            JsonBody.AsObject().Add('id', p);
+            JsonBody.Add('id', p);
     end;
     procedure Name() : Text
     begin
@@ -88,9 +88,9 @@ codeunit 50018 Pet implements "Kiota IModelClass SOHH"
     procedure Name(p : Text) 
     begin
         if JsonBody.SelectToken('name', SubToken) then
-            SubToken.AsObject().Replace('name', p)
+            JsonBody.Replace('name', p)
         else
-            JsonBody.AsObject().Add('name', p);
+            JsonBody.Add('name', p);
     end;
     procedure PhotoUrls() CodeunitList: List of [Text]
     var
@@ -111,21 +111,33 @@ codeunit 50018 Pet implements "Kiota IModelClass SOHH"
         foreach v in p do
             JArray.Add(v);
         if JsonBody.SelectToken('photoUrls', SubToken) then
-            SubToken.AsObject().Replace('photoUrls', JArray)
+            JsonBody.Replace('photoUrls', JArray)
         else
-            JsonBody.AsObject().Add('photoUrls', JArray);
-    end;
-    procedure Status() : Enum "Pet_status"
-    begin
-        if JsonBody.SelectToken('status', SubToken) then
-            exit(Enum::Pet_status.FromInteger(Enum::Pet_status.Ordinals().Get(Enum::Pet_status.Names().IndexOf(SubToken.AsValue().AsText()))));
+            JsonBody.Add('photoUrls', JArray);
     end;
     procedure Status(p : Enum "Pet_status") 
     begin
         if JsonBody.SelectToken('status', SubToken) then
-            SubToken.AsObject().Replace('status', p.AsInteger())
+            JsonBody.Replace('status', Format(p))
         else
-            JsonBody.AsObject().Add('status', p.AsInteger());
+            JsonBody.Add('status', Format(p));
+    end;
+    procedure Status() : Enum "Pet_status"
+    var
+        value: Enum "Pet_status";
+        Ordinal: Integer;
+        Ordinals: List of [Integer];
+    begin
+        if JsonBody.SelectToken('status', SubToken) then begin
+            // Return value based on captions; needed because it's possible that the "Names" differ from the captions
+            Ordinals := Enum::Pet_status.Ordinals();
+            foreach Ordinal in Ordinals do begin
+                value := Enum::Pet_status.FromInteger(Ordinal);
+                if (Format(value) = SubToken.AsValue().AsText()) then
+                    exit(value);
+            end;
+        Error('Invalid value for status: %1', SubToken.AsValue().AsText());
+        end;
     end;
     procedure Tags(p : List of [Codeunit "Tag"]) 
     var
@@ -135,9 +147,9 @@ codeunit 50018 Pet implements "Kiota IModelClass SOHH"
         foreach v in p do
             JSONHelper.AddToArrayIfNotEmpty(JArray, v);
         if JsonBody.SelectToken('tags', SubToken) then
-            SubToken.AsObject().Replace('tags', JArray)
+            JsonBody.Replace('tags', JArray)
         else
-            JsonBody.AsObject().Add('tags', JArray);
+            JsonBody.Add('tags', JArray);
     end;
     procedure Tags() CodeunitList: List of [Codeunit "Tag"]
     var
@@ -149,17 +161,17 @@ codeunit 50018 Pet implements "Kiota IModelClass SOHH"
             exit;
         JArray := SubToken.AsArray();
         foreach JToken in JArray do begin
-            Clear(TarCodeunit);
-            TargetCodeunit.SetBody(JToken, DebugCall);
+            Clear(TargetCodeunit);
+            TargetCodeunit.SetBody(JToken.AsObject(), DebugCall);
             CodeunitList.Add(TargetCodeunit);
         end;
     end;
-    procedure ToJson() : JsonToken
+    procedure ToJson() : JsonObject
     begin
         exit(JsonBody);
     end;
     #pragma warning disable AA0245
-    procedure ToJson(category : Codeunit "Category"; id : BigInteger; name : Text; photoUrls : List of [Text]; status : Enum "Pet_status"; tags : List of [Codeunit "Tag"]) : JsonToken
+    procedure ToJson(category : Codeunit "Category"; id : BigInteger; name : Text; photoUrls : List of [Text]; status : Enum "Pet_status"; tags : List of [Codeunit "Tag"]) : JsonObject
     #pragma warning restore AA0245
     var
         #pragma warning disable AA0021
@@ -168,14 +180,14 @@ codeunit 50018 Pet implements "Kiota IModelClass SOHH"
         tagsArray: JsonArray;
         #pragma warning restore AA0021
     begin
-        JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'category', category.ToJson());
+        JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'category', category.ToJson().AsToken());
         JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'id', id);
         JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'name', name);
         JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'photoUrls', photoUrls);
-        JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'status', status.AsInteger());
+        JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'status', Format(status));
         foreach tag in tags do
             JSONHelper.AddToArrayIfNotEmpty(tagsArray, tag);
         JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'tags', tagsArray);
-        exit(TargetJson.AsToken());
+        exit(TargetJson);
     end;
 }

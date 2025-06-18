@@ -13,7 +13,6 @@ using SimonOfHH.Kiota.Definitions;
 /// </summary>
 codeunit 50016 ApiClient implements "Kiota IApiClient SOHH"
 {
-    Access = Internal;
 
     var
         APIAuthorization: Codeunit "Kiota API Authorization SOHH";

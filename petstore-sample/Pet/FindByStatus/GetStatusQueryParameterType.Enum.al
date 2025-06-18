@@ -3,7 +3,6 @@ namespace PetStoreAl.pet.findByStatus;
 
 enum 50001 GetStatusQueryParameterType
 {
-    Access = Internal;
 
     value(0; "Available")
     {

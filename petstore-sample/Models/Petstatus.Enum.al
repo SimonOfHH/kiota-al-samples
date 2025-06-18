@@ -4,7 +4,6 @@ namespace PetStoreAl.models;
 /// <summary>pet status in the store</summary>
 enum 50003 Pet_status
 {
-    Access = Internal;
 
     value(0; "Available")
     {

@@ -9,7 +9,6 @@ using SimonOfHH.Kiota.Client;
 /// </summary>
 codeunit 50007 WithOrderItemRequestBuilder 
 {
-    Access = Internal;
 
     var
         Identifier: BigInteger;
@@ -40,6 +39,6 @@ codeunit 50007 WithOrderItemRequestBuilder
         RequestHandler.SetMethod(enum::System.RestClient."Http Method"::GET);
         RequestHandler.HandleRequest();
         if ReqConfig.Client().Response().GetIsSuccessStatusCode() then
-            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson());
+            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson().AsObject());
     end;
 }

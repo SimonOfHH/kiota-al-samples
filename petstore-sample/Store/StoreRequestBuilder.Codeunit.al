@@ -11,7 +11,6 @@ using SimonOfHH.Kiota.Client;
 /// </summary>
 codeunit 50006 StoreRequestBuilder 
 {
-    Access = Internal;
 
     var
         ReqConfig: Codeunit "Kiota ClientConfig SOHH";

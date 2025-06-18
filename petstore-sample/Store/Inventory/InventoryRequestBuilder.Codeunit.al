@@ -9,7 +9,6 @@ using SimonOfHH.Kiota.Client;
 /// </summary>
 codeunit 50010 InventoryRequestBuilder 
 {
-    Access = Internal;
 
     var
         ReqConfig: Codeunit "Kiota ClientConfig SOHH";
@@ -26,6 +25,6 @@ codeunit 50010 InventoryRequestBuilder
         RequestHandler.SetMethod(enum::System.RestClient."Http Method"::GET);
         RequestHandler.HandleRequest();
         if ReqConfig.Client().Response().GetIsSuccessStatusCode() then
-            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson());
+            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson().AsObject());
     end;
 }

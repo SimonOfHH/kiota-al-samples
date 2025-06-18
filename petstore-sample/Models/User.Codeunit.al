@@ -6,19 +6,19 @@ using SimonOfHH.Kiota.Utilities;
 
 codeunit 50017 User implements "Kiota IModelClass SOHH"
 {
-    Access = Internal;
 
     var
         #pragma warning disable AA0137
         JSONHelper: Codeunit "JSON Helper SOHH";
         #pragma warning restore AA0137
-        JsonBody, SubToken: JsonToken;
+        JsonBody: JsonObject;
+        SubToken: JsonToken;
         DebugCall: Boolean;
-    procedure SetBody(NewJsonBody : JsonToken) 
+    procedure SetBody(NewJsonBody : JsonObject) 
     begin
         SetBody(NewJsonBody, false);
     end;
-    procedure SetBody(NewJsonBody : JsonToken; Debug : Boolean) 
+    procedure SetBody(NewJsonBody : JsonObject; Debug : Boolean) 
     begin
         JsonBody := NewJsonBody;
         if (Debug) then begin
@@ -61,9 +61,9 @@ codeunit 50017 User implements "Kiota IModelClass SOHH"
     procedure Email(p : Text) 
     begin
         if JsonBody.SelectToken('email', SubToken) then
-            SubToken.AsObject().Replace('email', p)
+            JsonBody.Replace('email', p)
         else
-            JsonBody.AsObject().Add('email', p);
+            JsonBody.Add('email', p);
     end;
     procedure FirstName() : Text
     begin
@@ -73,9 +73,9 @@ codeunit 50017 User implements "Kiota IModelClass SOHH"
     procedure FirstName(p : Text) 
     begin
         if JsonBody.SelectToken('firstName', SubToken) then
-            SubToken.AsObject().Replace('firstName', p)
+            JsonBody.Replace('firstName', p)
         else
-            JsonBody.AsObject().Add('firstName', p);
+            JsonBody.Add('firstName', p);
     end;
     procedure Id() : BigInteger
     begin
@@ -85,9 +85,9 @@ codeunit 50017 User implements "Kiota IModelClass SOHH"
     procedure Id(p : BigInteger) 
     begin
         if JsonBody.SelectToken('id', SubToken) then
-            SubToken.AsObject().Replace('id', p)
+            JsonBody.Replace('id', p)
         else
-            JsonBody.AsObject().Add('id', p);
+            JsonBody.Add('id', p);
     end;
     procedure LastName() : Text
     begin
@@ -97,9 +97,9 @@ codeunit 50017 User implements "Kiota IModelClass SOHH"
     procedure LastName(p : Text) 
     begin
         if JsonBody.SelectToken('lastName', SubToken) then
-            SubToken.AsObject().Replace('lastName', p)
+            JsonBody.Replace('lastName', p)
         else
-            JsonBody.AsObject().Add('lastName', p);
+            JsonBody.Add('lastName', p);
     end;
     procedure Password() : Text
     begin
@@ -109,9 +109,9 @@ codeunit 50017 User implements "Kiota IModelClass SOHH"
     procedure Password(p : Text) 
     begin
         if JsonBody.SelectToken('password', SubToken) then
-            SubToken.AsObject().Replace('password', p)
+            JsonBody.Replace('password', p)
         else
-            JsonBody.AsObject().Add('password', p);
+            JsonBody.Add('password', p);
     end;
     procedure Phone() : Text
     begin
@@ -121,16 +121,16 @@ codeunit 50017 User implements "Kiota IModelClass SOHH"
     procedure Phone(p : Text) 
     begin
         if JsonBody.SelectToken('phone', SubToken) then
-            SubToken.AsObject().Replace('phone', p)
+            JsonBody.Replace('phone', p)
         else
-            JsonBody.AsObject().Add('phone', p);
+            JsonBody.Add('phone', p);
     end;
-    procedure ToJson() : JsonToken
+    procedure ToJson() : JsonObject
     begin
         exit(JsonBody);
     end;
     #pragma warning disable AA0245
-    procedure ToJson(email : Text; firstName : Text; id : BigInteger; lastName : Text; password : Text; phone : Text; username : Text; userStatus : Integer) : JsonToken
+    procedure ToJson(email : Text; firstName : Text; id : BigInteger; lastName : Text; password : Text; phone : Text; username : Text; userStatus : Integer) : JsonObject
     #pragma warning restore AA0245
     var
         TargetJson: JsonObject;
@@ -143,7 +143,7 @@ codeunit 50017 User implements "Kiota IModelClass SOHH"
         JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'phone', phone);
         JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'username', username);
         JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'userStatus', userStatus);
-        exit(TargetJson.AsToken());
+        exit(TargetJson);
     end;
     procedure Username() : Text
     begin
@@ -153,9 +153,9 @@ codeunit 50017 User implements "Kiota IModelClass SOHH"
     procedure Username(p : Text) 
     begin
         if JsonBody.SelectToken('username', SubToken) then
-            SubToken.AsObject().Replace('username', p)
+            JsonBody.Replace('username', p)
         else
-            JsonBody.AsObject().Add('username', p);
+            JsonBody.Add('username', p);
     end;
     procedure UserStatus() : Integer
     begin
@@ -165,8 +165,8 @@ codeunit 50017 User implements "Kiota IModelClass SOHH"
     procedure UserStatus(p : Integer) 
     begin
         if JsonBody.SelectToken('userStatus', SubToken) then
-            SubToken.AsObject().Replace('userStatus', p)
+            JsonBody.Replace('userStatus', p)
         else
-            JsonBody.AsObject().Add('userStatus', p);
+            JsonBody.Add('userStatus', p);
     end;
 }

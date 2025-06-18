@@ -10,7 +10,6 @@ using SimonOfHH.Kiota.Client;
 /// </summary>
 codeunit 50004 WithPetItemRequestBuilder 
 {
-    Access = Internal;
 
     var
         Identifier: BigInteger;
@@ -41,7 +40,7 @@ codeunit 50004 WithPetItemRequestBuilder
         RequestHandler.SetMethod(enum::System.RestClient."Http Method"::GET);
         RequestHandler.HandleRequest();
         if ReqConfig.Client().Response().GetIsSuccessStatusCode() then
-            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson());
+            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson().AsObject());
     end;
     procedure Post(name : Text; status : Text) Target: Codeunit "Pet"
     var
@@ -51,7 +50,7 @@ codeunit 50004 WithPetItemRequestBuilder
         RequestHandler.SetMethod(enum::System.RestClient."Http Method"::POST);
         RequestHandler.HandleRequest();
         if ReqConfig.Client().Response().GetIsSuccessStatusCode() then
-            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson());
+            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson().AsObject());
     end;
     procedure UploadImage() Rqst: Codeunit "UploadImageRequestBuilder"
     begin

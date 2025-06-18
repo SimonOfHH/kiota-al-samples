@@ -9,7 +9,6 @@ using SimonOfHH.Kiota.Client;
 /// </summary>
 codeunit 50013 WithUsernameItemRequestBuilder 
 {
-    Access = Internal;
 
     var
         Identifier: Text;
@@ -40,7 +39,7 @@ codeunit 50013 WithUsernameItemRequestBuilder
         RequestHandler.SetMethod(enum::System.RestClient."Http Method"::GET);
         RequestHandler.HandleRequest();
         if ReqConfig.Client().Response().GetIsSuccessStatusCode() then
-            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson());
+            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson().AsObject());
     end;
     procedure Put(body : Codeunit "User") : byte
     var

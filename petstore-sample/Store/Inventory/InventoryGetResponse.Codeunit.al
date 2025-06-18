@@ -6,19 +6,19 @@ using SimonOfHH.Kiota.Utilities;
 
 codeunit 50009 InventoryGetResponse implements "Kiota IModelClass SOHH"
 {
-    Access = Internal;
 
     var
         #pragma warning disable AA0137
         JSONHelper: Codeunit "JSON Helper SOHH";
         #pragma warning restore AA0137
-        JsonBody, SubToken: JsonToken;
+        JsonBody: JsonObject;
+        SubToken: JsonToken;
         DebugCall: Boolean;
-    procedure SetBody(NewJsonBody : JsonToken) 
+    procedure SetBody(NewJsonBody : JsonObject) 
     begin
         SetBody(NewJsonBody, false);
     end;
-    procedure SetBody(NewJsonBody : JsonToken; Debug : Boolean) 
+    procedure SetBody(NewJsonBody : JsonObject; Debug : Boolean) 
     begin
         JsonBody := NewJsonBody;
         if (Debug) then begin
@@ -31,7 +31,7 @@ codeunit 50009 InventoryGetResponse implements "Kiota IModelClass SOHH"
     local procedure ValidateBody() 
     begin
     end;
-    procedure ToJson() : JsonToken
+    procedure ToJson() : JsonObject
     begin
         exit(JsonBody);
     end;

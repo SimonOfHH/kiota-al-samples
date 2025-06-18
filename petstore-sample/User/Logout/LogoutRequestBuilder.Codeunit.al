@@ -9,7 +9,6 @@ using SimonOfHH.Kiota.Client;
 /// </summary>
 codeunit 50015 LogoutRequestBuilder 
 {
-    Access = Internal;
 
     var
         ReqConfig: Codeunit "Kiota ClientConfig SOHH";

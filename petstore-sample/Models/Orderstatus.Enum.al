@@ -4,7 +4,6 @@ namespace PetStoreAl.models;
 /// <summary>Order Status</summary>
 enum 50002 Order_status
 {
-    Access = Internal;
 
     value(0; "Placed")
     {

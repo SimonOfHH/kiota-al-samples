@@ -9,7 +9,6 @@ using SimonOfHH.Kiota.Client;
 /// </summary>
 codeunit 50002 FindByStatusRequestBuilder 
 {
-    Access = Internal;
 
     var
         ReqConfig: Codeunit "Kiota ClientConfig SOHH";
@@ -27,6 +26,6 @@ codeunit 50002 FindByStatusRequestBuilder
         RequestHandler.HandleRequest();
         // TODO: Fix collection Handling: 
         // if ReqConfig.Client().Response().GetIsSuccessStatusCode() then
-        //    Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson());
+        //    Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson().AsObject());
     end;
 }

@@ -10,7 +10,6 @@ using SimonOfHH.Kiota.Client;
 /// </summary>
 codeunit 50008 OrderRequestBuilder 
 {
-    Access = Internal;
 
     var
         ReqConfig: Codeunit "Kiota ClientConfig SOHH";
@@ -33,6 +32,6 @@ codeunit 50008 OrderRequestBuilder
         RequestHandler.SetMethod(enum::System.RestClient."Http Method"::POST);
         RequestHandler.HandleRequest();
         if ReqConfig.Client().Response().GetIsSuccessStatusCode() then
-            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson());
+            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson().AsObject());
     end;
 }

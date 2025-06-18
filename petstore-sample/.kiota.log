@@ -1,26 +1,26 @@
-Information: KiotaBuilder Cleaning output directory /workspaces/kiota/samples/PetStore/al
+Information: KiotaBuilder Cleaning output directory C:\Data\Repositories\Github\SimonOfHH\forks\kiota\samples\PetStore\al
 Debug: KiotaBuilder kiota version 1.25.1
-Debug: KiotaBuilder cache file /tmp/kiota/cache/generation/715E581E0D464CAA7F0F889903F2C6F13901D28E9ABF812E5E8AF857B54E01C5/openapi.json is up to date and clearCache is False, using it
+Debug: KiotaBuilder cache file C:\Users\sfischer\AppData\Local\Temp\kiota\cache\generation\715E581E0D464CAA7F0F889903F2C6F13901D28E9ABF812E5E8AF857B54E01C5\openapi.json is up to date and clearCache is False, using it
 Information: KiotaBuilder loaded description from remote source
-Debug: KiotaBuilder step 1 - reading the stream - took 00:00:00.0407433
+Debug: KiotaBuilder step 1 - reading the stream - took 00:00:00.0492564
 Warning: KiotaBuilder OpenAPI warning: #/paths/~1pet/put - The operation #/paths/~1pet/put has a request body with a complex properties and the url form encoded content type. This is not supported by Kiota and serialization of complex properties will fail.
 Warning: KiotaBuilder OpenAPI warning: #/paths/~1pet/post - The operation #/paths/~1pet/post has a request body with a complex properties and the url form encoded content type. This is not supported by Kiota and serialization of complex properties will fail.
-Debug: KiotaBuilder step 2 - parsing the document - took 00:00:00.6201036
-Debug: KiotaBuilder step 3 - updating generation configuration from kiota extension - took 00:00:00.0010011
-Debug: KiotaBuilder step 4 - filtering API paths with patterns - took 00:00:00.0463344
+Debug: KiotaBuilder step 2 - parsing the document - took 00:00:00.2261662
+Debug: KiotaBuilder step 3 - updating generation configuration from kiota extension - took 00:00:00.0002372
+Debug: KiotaBuilder step 4 - filtering API paths with patterns - took 00:00:00.0113036
 Information: KiotaBuilder Client root URL set to https://petstore3.swagger.io/api/v3
-Debug: KiotaBuilder step 5 - checking whether the output should be updated - took 00:00:00.1478293
-Debug: KiotaBuilder step 6 - create uri space - took 00:00:00.0201146
-Debug: KiotaBuilder InitializeInheritanceIndex 00:00:00.0380295
+Debug: KiotaBuilder step 5 - checking whether the output should be updated - took 00:00:00.0304304
+Debug: KiotaBuilder step 6 - create uri space - took 00:00:00.0046061
+Debug: KiotaBuilder InitializeInheritanceIndex 00:00:00.0060251
 Debug: KiotaBuilder CreateRequestBuilderClass 00:00:00
-Debug: KiotaBuilder MapTypeDefinitions 00:00:00.1681508
+Debug: KiotaBuilder MapTypeDefinitions 00:00:00.0281293
 Debug: KiotaBuilder TrimInheritedModels 00:00:00
 Debug: KiotaBuilder CleanUpInternalState 00:00:00
-Debug: KiotaBuilder step 7 - create source model - took 00:00:00.7949420
-Debug: KiotaBuilder 154ms: Language refinement applied
-Debug: KiotaBuilder step 8 - refine by language - took 00:00:00.1611988
-Debug: KiotaBuilder step 9 - writing files - took 00:00:00.5362038
-Debug: KiotaBuilder cache file /tmp/kiota/cache/generation/715E581E0D464CAA7F0F889903F2C6F13901D28E9ABF812E5E8AF857B54E01C5/openapi.json is up to date and clearCache is False, using it
+Debug: KiotaBuilder step 7 - create source model - took 00:00:00.1222643
+Debug: KiotaBuilder 37ms: Language refinement applied
+Debug: KiotaBuilder step 8 - refine by language - took 00:00:00.0628037
+Debug: KiotaBuilder step 9 - writing files - took 00:00:00.0964531
+Debug: KiotaBuilder cache file C:\Users\sfischer\AppData\Local\Temp\kiota\cache\generation\715E581E0D464CAA7F0F889903F2C6F13901D28E9ABF812E5E8AF857B54E01C5\openapi.json is up to date and clearCache is False, using it
 Information: KiotaBuilder loaded description from remote source
-Debug: KiotaBuilder step 10 - writing lock file - took 00:00:00.0396155
-Debug: KiotaBuilder Api manifest path: /workspaces/kiota/src/kiota/apimanifest.json
+Debug: KiotaBuilder step 10 - writing lock file - took 00:00:00.0180306
+Debug: KiotaBuilder Api manifest path: C:\Data\Repositories\Github\SimonOfHH\forks\kiota\src\kiota\apimanifest.json

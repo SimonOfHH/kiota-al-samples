@@ -12,7 +12,6 @@ using SimonOfHH.Kiota.Client;
 /// </summary>
 codeunit 50001 PetRequestBuilder 
 {
-    Access = Internal;
 
     var
         ReqConfig: Codeunit "Kiota ClientConfig SOHH";
@@ -43,7 +42,7 @@ codeunit 50001 PetRequestBuilder
         RequestHandler.SetMethod(enum::System.RestClient."Http Method"::POST);
         RequestHandler.HandleRequest();
         if ReqConfig.Client().Response().GetIsSuccessStatusCode() then
-            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson());
+            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson().AsObject());
     end;
     procedure Put(body : Codeunit "Pet") Target: Codeunit "Pet"
     var
@@ -54,6 +53,6 @@ codeunit 50001 PetRequestBuilder
         RequestHandler.SetMethod(enum::System.RestClient."Http Method"::PUT);
         RequestHandler.HandleRequest();
         if ReqConfig.Client().Response().GetIsSuccessStatusCode() then
-            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson());
+            Target.SetBody(ReqConfig.Client().Response().GetContent().AsJson().AsObject());
     end;
 }

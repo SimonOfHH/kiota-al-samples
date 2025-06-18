@@ -6,19 +6,19 @@ using SimonOfHH.Kiota.Utilities;
 
 codeunit 50020 Category implements "Kiota IModelClass SOHH"
 {
-    Access = Internal;
 
     var
         #pragma warning disable AA0137
         JSONHelper: Codeunit "JSON Helper SOHH";
         #pragma warning restore AA0137
-        JsonBody, SubToken: JsonToken;
+        JsonBody: JsonObject;
+        SubToken: JsonToken;
         DebugCall: Boolean;
-    procedure SetBody(NewJsonBody : JsonToken) 
+    procedure SetBody(NewJsonBody : JsonObject) 
     begin
         SetBody(NewJsonBody, false);
     end;
-    procedure SetBody(NewJsonBody : JsonToken; Debug : Boolean) 
+    procedure SetBody(NewJsonBody : JsonObject; Debug : Boolean) 
     begin
         JsonBody := NewJsonBody;
         if (Debug) then begin
@@ -48,9 +48,9 @@ codeunit 50020 Category implements "Kiota IModelClass SOHH"
     procedure Id(p : BigInteger) 
     begin
         if JsonBody.SelectToken('id', SubToken) then
-            SubToken.AsObject().Replace('id', p)
+            JsonBody.Replace('id', p)
         else
-            JsonBody.AsObject().Add('id', p);
+            JsonBody.Add('id', p);
     end;
     procedure Name() : Text
     begin
@@ -60,22 +60,22 @@ codeunit 50020 Category implements "Kiota IModelClass SOHH"
     procedure Name(p : Text) 
     begin
         if JsonBody.SelectToken('name', SubToken) then
-            SubToken.AsObject().Replace('name', p)
+            JsonBody.Replace('name', p)
         else
-            JsonBody.AsObject().Add('name', p);
+            JsonBody.Add('name', p);
     end;
-    procedure ToJson() : JsonToken
+    procedure ToJson() : JsonObject
     begin
         exit(JsonBody);
     end;
     #pragma warning disable AA0245
-    procedure ToJson(id : BigInteger; name : Text) : JsonToken
+    procedure ToJson(id : BigInteger; name : Text) : JsonObject
     #pragma warning restore AA0245
     var
         TargetJson: JsonObject;
     begin
         JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'id', id);
         JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'name', name);
-        exit(TargetJson.AsToken());
+        exit(TargetJson);
     end;
 }

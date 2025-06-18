@@ -6,19 +6,19 @@ using SimonOfHH.Kiota.Utilities;
 
 codeunit 50022 Order implements "Kiota IModelClass SOHH"
 {
-    Access = Internal;
 
     var
         #pragma warning disable AA0137
         JSONHelper: Codeunit "JSON Helper SOHH";
         #pragma warning restore AA0137
-        JsonBody, SubToken: JsonToken;
+        JsonBody: JsonObject;
+        SubToken: JsonToken;
         DebugCall: Boolean;
-    procedure SetBody(NewJsonBody : JsonToken) 
+    procedure SetBody(NewJsonBody : JsonObject) 
     begin
         SetBody(NewJsonBody, false);
     end;
-    procedure SetBody(NewJsonBody : JsonToken; Debug : Boolean) 
+    procedure SetBody(NewJsonBody : JsonObject; Debug : Boolean) 
     begin
         JsonBody := NewJsonBody;
         if (Debug) then begin
@@ -59,9 +59,9 @@ codeunit 50022 Order implements "Kiota IModelClass SOHH"
     procedure Complete(p : Boolean) 
     begin
         if JsonBody.SelectToken('complete', SubToken) then
-            SubToken.AsObject().Replace('complete', p)
+            JsonBody.Replace('complete', p)
         else
-            JsonBody.AsObject().Add('complete', p);
+            JsonBody.Add('complete', p);
     end;
     procedure Id() : BigInteger
     begin
@@ -71,9 +71,9 @@ codeunit 50022 Order implements "Kiota IModelClass SOHH"
     procedure Id(p : BigInteger) 
     begin
         if JsonBody.SelectToken('id', SubToken) then
-            SubToken.AsObject().Replace('id', p)
+            JsonBody.Replace('id', p)
         else
-            JsonBody.AsObject().Add('id', p);
+            JsonBody.Add('id', p);
     end;
     procedure PetId() : BigInteger
     begin
@@ -83,9 +83,9 @@ codeunit 50022 Order implements "Kiota IModelClass SOHH"
     procedure PetId(p : BigInteger) 
     begin
         if JsonBody.SelectToken('petId', SubToken) then
-            SubToken.AsObject().Replace('petId', p)
+            JsonBody.Replace('petId', p)
         else
-            JsonBody.AsObject().Add('petId', p);
+            JsonBody.Add('petId', p);
     end;
     procedure Quantity() : Integer
     begin
@@ -95,9 +95,9 @@ codeunit 50022 Order implements "Kiota IModelClass SOHH"
     procedure Quantity(p : Integer) 
     begin
         if JsonBody.SelectToken('quantity', SubToken) then
-            SubToken.AsObject().Replace('quantity', p)
+            JsonBody.Replace('quantity', p)
         else
-            JsonBody.AsObject().Add('quantity', p);
+            JsonBody.Add('quantity', p);
     end;
     procedure ShipDate() : DateTime
     begin
@@ -107,28 +107,40 @@ codeunit 50022 Order implements "Kiota IModelClass SOHH"
     procedure ShipDate(p : DateTime) 
     begin
         if JsonBody.SelectToken('shipDate', SubToken) then
-            SubToken.AsObject().Replace('shipDate', p)
+            JsonBody.Replace('shipDate', p)
         else
-            JsonBody.AsObject().Add('shipDate', p);
-    end;
-    procedure Status() : Enum "Order_status"
-    begin
-        if JsonBody.SelectToken('status', SubToken) then
-            exit(Enum::Order_status.FromInteger(Enum::Order_status.Ordinals().Get(Enum::Order_status.Names().IndexOf(SubToken.AsValue().AsText()))));
+            JsonBody.Add('shipDate', p);
     end;
     procedure Status(p : Enum "Order_status") 
     begin
         if JsonBody.SelectToken('status', SubToken) then
-            SubToken.AsObject().Replace('status', p.AsInteger())
+            JsonBody.Replace('status', Format(p))
         else
-            JsonBody.AsObject().Add('status', p.AsInteger());
+            JsonBody.Add('status', Format(p));
     end;
-    procedure ToJson() : JsonToken
+    procedure Status() : Enum "Order_status"
+    var
+        value: Enum "Order_status";
+        Ordinal: Integer;
+        Ordinals: List of [Integer];
+    begin
+        if JsonBody.SelectToken('status', SubToken) then begin
+            // Return value based on captions; needed because it's possible that the "Names" differ from the captions
+            Ordinals := Enum::Order_status.Ordinals();
+            foreach Ordinal in Ordinals do begin
+                value := Enum::Order_status.FromInteger(Ordinal);
+                if (Format(value) = SubToken.AsValue().AsText()) then
+                    exit(value);
+            end;
+        Error('Invalid value for status: %1', SubToken.AsValue().AsText());
+        end;
+    end;
+    procedure ToJson() : JsonObject
     begin
         exit(JsonBody);
     end;
     #pragma warning disable AA0245
-    procedure ToJson(complete : Boolean; id : BigInteger; petId : BigInteger; quantity : Integer; shipDate : DateTime; status : Enum "Order_status") : JsonToken
+    procedure ToJson(complete : Boolean; id : BigInteger; petId : BigInteger; quantity : Integer; shipDate : DateTime; status : Enum "Order_status") : JsonObject
     #pragma warning restore AA0245
     var
         TargetJson: JsonObject;
@@ -138,7 +150,7 @@ codeunit 50022 Order implements "Kiota IModelClass SOHH"
         JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'petId', petId);
         JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'quantity', quantity);
         JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'shipDate', shipDate);
-        JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'status', status.AsInteger());
-        exit(TargetJson.AsToken());
+        JSONHelper.AddToObjectIfNotEmpty(TargetJson, 'status', Format(status));
+        exit(TargetJson);
     end;
 }
